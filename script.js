@@ -431,7 +431,7 @@ async function runAssistant(action) {
 
 
         const response =
-            await fetch("https://TUMHARA-RENDER-URL.onrender.com/api/code", {
+            await fetch("https://aicodeassistent.onrender.com/api/code", {
 
                 method: "POST",
 
@@ -1024,7 +1024,7 @@ async function sendChatMessage() {
         // ------------------------------------------
 
         const response =
-            await fetch("https://TUMHARA-RENDER-URL.onrender.com/api/code", {
+            await fetch("https://aicodeassistent.onrender.com/api/code", {
 
                 method: "POST",
 
