@@ -313,8 +313,24 @@ function showResponse(text) {
 
     responseText.classList.remove("hidden");
 
-    responseText.textContent =
-        text || "No response received.";
+    // ==================================================
+    // MARKDOWN FORMATTED AI RESPONSE
+    // ==================================================
+
+    if (
+        typeof marked !== "undefined" &&
+        text
+    ) {
+
+        responseText.innerHTML =
+            marked.parse(text);
+
+    } else {
+
+        responseText.textContent =
+            text || "No response received.";
+
+    }
 
 }
 
@@ -885,8 +901,24 @@ label.textContent =
         document.createElement("div");
 
 
-    content.textContent =
-        message;
+    // ==================================================
+    // FORMATTED AI CHAT RESPONSE
+    // ==================================================
+
+    if (
+        sender === "ai" &&
+        typeof marked !== "undefined"
+    ) {
+
+        content.innerHTML =
+            marked.parse(message);
+
+    } else {
+
+        content.textContent =
+            message;
+
+    }
 
 
     messageDiv.appendChild(label);
