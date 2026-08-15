@@ -26,10 +26,17 @@ app.use(express.json({
     limit: "2mb"
 }));
 
-// app.use(express.static(
-//     path.join(__dirname, "public")
-// ));
+// Serve frontend files from root folder
 app.use(express.static(__dirname));
+
+// ==========================================
+// HOME PAGE
+// ==========================================
+
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "index.html"));
+});
+
 // ==========================================
 // HEALTH
 // ==========================================
@@ -60,8 +67,7 @@ app.get("/api/test-groq", async (req, res) => {
             messages: [
                 {
                     role: "user",
-                    content:
-                        "Reply with exactly: AI connection successful."
+                    content: "Reply with exactly: AI connection successful."
                 }
             ],
 
@@ -71,8 +77,6 @@ app.get("/api/test-groq", async (req, res) => {
 
         const result =
             response.choices?.[0]?.message?.content;
-
-        console.log("Groq response:", result);
 
         res.json({
 
@@ -85,8 +89,7 @@ app.get("/api/test-groq", async (req, res) => {
 
     } catch (error) {
 
-        console.error("❌ Groq test error:");
-        console.error(error);
+        console.error("Groq test error:", error);
 
         res.status(500).json({
 
@@ -94,8 +97,7 @@ app.get("/api/test-groq", async (req, res) => {
 
             error: "AI connection failed",
 
-            details:
-                error.message
+            details: error.message
 
         });
 
@@ -120,19 +122,15 @@ app.post("/api/code", async (req, res) => {
             message
         } = req.body;
 
-        console.log("");
-        console.log("======================================");
-        console.log("🤖 AI REQUEST");
+        console.log("AI REQUEST");
         console.log("Action:", action);
         console.log("Language:", language);
-        console.log("======================================");
 
         if (!action) {
 
             return res.status(400).json({
 
                 success: false,
-
                 error: "Action is required"
 
             });
@@ -166,7 +164,7 @@ Provide:
         }
 
         // ==========================================
-        // FIX BUGS
+        // FIX
         // ==========================================
 
         else if (action === "fix") {
@@ -274,7 +272,7 @@ Requirements:
         }
 
         // ==========================================
-        // TEST CASES
+        // TESTS
         // ==========================================
 
         else if (action === "tests") {
@@ -333,7 +331,6 @@ If code is required, provide complete code.
             return res.status(400).json({
 
                 success: false,
-
                 error: "Invalid action"
 
             });
@@ -344,7 +341,7 @@ If code is required, provide complete code.
         // GROQ REQUEST
         // ==========================================
 
-        console.log("⏳ Sending request to Groq...");
+        console.log("Sending request to Groq...");
 
         const response =
             await groq.chat.completions.create({
@@ -373,91 +370,43 @@ If code is required, provide complete code.
             });
 
         // ==========================================
-        // GET RESPONSE
+        // RESPONSE
         // ==========================================
 
         const result =
             response.choices?.[0]?.message?.content;
 
-        console.log("✅ Groq request completed.");
-
-        console.log("AI response:");
-        console.log(result);
-
-        // ==========================================
-        // EMPTY RESPONSE CHECK
-        // ==========================================
-
         if (!result || result.trim() === "") {
-
-            console.error(
-                "❌ AI returned empty response."
-            );
 
             return res.status(500).json({
 
                 success: false,
-
-                error:
-                    "AI returned an empty response."
+                error: "AI returned an empty response."
 
             });
 
         }
 
-        // ==========================================
-        // SEND RESPONSE
-        // ==========================================
-
         res.status(200).json({
 
             success: true,
-
             result: result
 
         });
 
-        console.log(
-            "✅ Response sent to frontend."
-        );
-
     } catch (error) {
 
-        console.error("");
-        console.error("======================================");
-        console.error("❌ AI API ERROR");
-        console.error("======================================");
-        console.error(error);
-        console.error("======================================");
+        console.error("AI API ERROR:", error);
 
         res.status(500).json({
 
             success: false,
-
             error: "AI request failed",
-
-            details:
-                error.message
+            details: error.message
 
         });
 
     }
-
-});
-
-// ==========================================
-// FRONTEND FALLBACK
-// ==========================================
-
-app.use((req, res) => {
-
-    res.sendFile(
-        path.join(
-            __dirname,
-            "public",
-            "index.html"
-        )
-    );
 
 });
 
@@ -467,23 +416,10 @@ app.use((req, res) => {
 
 app.listen(PORT, () => {
 
-    console.log("");
     console.log("======================================");
-    console.log("🚀 AI Code Assistant Started");
+    console.log("AI Code Assistant Started");
     console.log("======================================");
-    console.log(
-        `🌐 Open: http://localhost:${PORT}`
-    );
-    console.log(
-        `❤️ Health: http://localhost:${PORT}/api/health`
-    );
-    console.log(
-        `🤖 AI Test: http://localhost:${PORT}/api/test-groq`
-    );
+    console.log(`Server running on port ${PORT}`);
     console.log("======================================");
-    console.log("");
 
-});
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "index.html"));
 });
