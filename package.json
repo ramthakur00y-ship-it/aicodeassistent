@@ -1,0 +1,28 @@
+{
+  "name": "ai-code-assistant",
+  "version": "1.0.0",
+  "description": "AI Code Assistant powered by Gemini",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "echo \"No tests configured yet\""
+  },
+  "keywords": [
+    "ai",
+    "code-assistant",
+    "gemini",
+    "nodejs",
+    "express"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@google/genai": "^2.17.1",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "groq-sdk": "^1.5.0"
+  }
+}
