@@ -1224,3 +1224,442 @@ body {
         width: 100%;
     }
 }
+/* =========================================================
+   ✨ UNIQUE AI / CYBER BACKGROUND
+   ========================================================= */
+
+body {
+    position: relative;
+    overflow-x: hidden;
+
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(99, 102, 241, 0.25),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 85% 25%,
+            rgba(0, 229, 255, 0.18),
+            transparent 25%
+        ),
+        radial-gradient(
+            circle at 50% 90%,
+            rgba(168, 85, 247, 0.18),
+            transparent 30%
+        ),
+        #050713;
+}
+
+/* AI grid */
+body::before {
+    content: "";
+
+    position: fixed;
+    inset: 0;
+
+    pointer-events: none;
+
+    opacity: 0.22;
+
+    background-image:
+        linear-gradient(
+            rgba(99, 102, 241, 0.12) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(99, 102, 241, 0.12) 1px,
+            transparent 1px
+        );
+
+    background-size: 45px 45px;
+
+    mask-image:
+        radial-gradient(
+            ellipse at center,
+            black 20%,
+            transparent 80%
+        );
+
+    z-index: 0;
+}
+
+/* glowing AI orb */
+body::after {
+    content: "";
+
+    position: fixed;
+
+    width: 500px;
+    height: 500px;
+
+    left: 50%;
+    top: 45%;
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(99, 102, 241, 0.13),
+            transparent 65%
+        );
+
+    filter: blur(25px);
+
+    animation: aiGlow 7s ease-in-out infinite alternate;
+
+    pointer-events: none;
+
+    z-index: 0;
+}
+
+@keyframes aiGlow {
+
+    0% {
+        transform:
+            translate(-55%, -50%)
+            scale(0.9);
+    }
+
+    100% {
+        transform:
+            translate(-45%, -50%)
+            scale(1.15);
+    }
+}
+
+
+/* =========================================================
+   KEEP APP ABOVE BACKGROUND
+   ========================================================= */
+
+.app {
+    position: relative;
+    z-index: 1;
+}
+
+
+/* =========================================================
+   BIGGER / MORE READABLE UI
+   ========================================================= */
+
+.header {
+    height: 88px;
+}
+
+.brand h1 {
+    font-size: 25px;
+}
+
+.brand p {
+    font-size: 13px;
+}
+
+.logo {
+    width: 54px;
+    height: 54px;
+    font-size: 22px;
+}
+
+.panel-header {
+    min-height: 90px;
+    padding: 23px 26px;
+}
+
+.panel-header h2 {
+    font-size: 20px;
+}
+
+.panel-header p {
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   BIGGER CODE EDITOR
+   ========================================================= */
+
+.editor-wrapper {
+    height: 470px;
+}
+
+#codeInput {
+    font-size: 17px;
+    line-height: 1.75;
+    padding: 24px;
+}
+
+.line-numbers {
+    width: 60px;
+    font-size: 15px;
+    line-height: 1.75;
+    padding: 24px 14px;
+}
+
+
+/* =========================================================
+   BIGGER BUTTONS
+   ========================================================= */
+
+.actions {
+    padding: 20px;
+    gap: 11px;
+}
+
+.action-btn {
+    padding: 12px 17px;
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   BIGGER AI RESPONSE
+   ========================================================= */
+
+.response-container {
+    min-height: 600px;
+    max-height: 720px;
+    padding: 32px;
+}
+
+.response-text {
+    font-size: 20px;
+    line-height: 1.9;
+}
+
+.response-text p {
+    font-size: 20px;
+    line-height: 1.9;
+}
+
+.response-text li {
+    font-size: 19px;
+    line-height: 1.8;
+}
+
+.response-text pre {
+    font-size: 16px;
+    line-height: 1.7;
+    padding: 22px;
+}
+
+
+/* =========================================================
+   BIGGER EMPTY STATE
+   ========================================================= */
+
+.empty-state h3 {
+    font-size: 24px;
+}
+
+.empty-state > p {
+    font-size: 15px;
+}
+
+
+/* =========================================================
+   BIGGER CHAT
+   ========================================================= */
+
+.chat-messages {
+    min-height: 350px;
+    max-height: 500px;
+}
+
+.chat-welcome strong {
+    font-size: 16px;
+}
+
+.chat-welcome p {
+    font-size: 14px;
+}
+
+#chatInput {
+    font-size: 16px;
+    padding: 15px;
+}
+
+.chat-send-btn {
+    padding: 14px 22px;
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   GLASS EFFECT
+   ========================================================= */
+
+.panel {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(15, 23, 42, 0.88),
+            rgba(5, 8, 18, 0.82)
+        );
+
+    backdrop-filter: blur(18px);
+}
+
+
+/* =========================================================
+   CYBER GLOW ON PANELS
+   ========================================================= */
+
+.code-panel::before,
+.response-panel::before,
+.chat-panel::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 10%;
+
+    width: 80%;
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(99, 102, 241, 0.7),
+            rgba(34, 211, 238, 0.7),
+            transparent
+        );
+
+    box-shadow:
+        0 0 15px rgba(99, 102, 241, 0.5);
+}
+/* FLOATING AI PARTICLES */
+body {
+    isolation: isolate;
+}
+
+body .app::before {
+    content: "✦   ·   ✧   ·   ✦   ·   ✧   ·   ✦   ·   ·   ✧";
+
+    position: fixed;
+    inset: 0;
+
+    display: block;
+
+    color: rgba(129, 140, 248, 0.18);
+
+    font-size: 22px;
+    letter-spacing: 55px;
+    line-height: 90px;
+
+    pointer-events: none;
+
+    animation: starsMove 18s linear infinite;
+
+    z-index: -1;
+}
+
+@keyframes starsMove {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-90px);
+    }
+}
+.action-btn,
+.copy-btn,
+.download-btn,
+.chat-send-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.action-btn::before,
+.copy-btn::before,
+.download-btn::before,
+.chat-send-btn::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -120%;
+
+    width: 80%;
+    height: 100%;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,0.15),
+        transparent
+    );
+
+    transform: skewX(-20deg);
+
+    transition: 0.6s;
+}
+
+.action-btn:hover::before,
+.copy-btn:hover::before,
+.download-btn:hover::before,
+.chat-send-btn:hover::before {
+    left: 130%;
+}
+.editor-wrapper {
+    position: relative;
+}
+
+.editor-wrapper::before {
+    content: "●  ●  ●";
+
+    position: absolute;
+
+    top: 8px;
+    left: 18px;
+
+    color: #475569;
+
+    font-size: 10px;
+
+    letter-spacing: 4px;
+
+    z-index: 2;
+
+    pointer-events: none;
+}
+
+#codeInput {
+    padding-top: 35px;
+}
+.response-text {
+    padding: 5px 0;
+}
+
+.response-text::before {
+    content: "AI ANALYSIS";
+
+    display: inline-block;
+
+    margin-bottom: 18px;
+
+    padding: 5px 10px;
+
+    border-radius: 6px;
+
+    background: rgba(99, 102, 241, 0.1);
+
+    border: 1px solid rgba(99, 102, 241, 0.2);
+
+    color: #a5b4fc;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+}
