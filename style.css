@@ -749,29 +749,5 @@ button:disabled {
 
 }
 
-#response {
-    font-size: 18px;
-    line-height: 1.7;
-    padding: 20px;
-    min-height: 300px;
-    width: 100%;
-    color: #222;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    overflow-y: auto;
-}
-#response pre {
-    font-size: 16px;
-    line-height: 1.6;
-    padding: 15px;
-    overflow-x: auto;
-}
 
-#response code {
-    font-size: 16px;
-}
-.response-box {
-    min-height: 400px;
-    max-height: 600px;
-    overflow-y: auto;
 }
