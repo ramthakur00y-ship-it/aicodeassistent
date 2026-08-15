@@ -500,7 +500,7 @@ async function runAssistant(action) {
         if (!result) {
 
             throw new Error(
-                "Gemini returned an empty response."
+                "Groq returned an empty response."
             );
 
         }
@@ -926,7 +926,7 @@ function addChatLoading() {
     loadingMessage.innerHTML =
         `
         <span class="chat-message-label">
-            Gemini
+            Groq
         </span>
         🤔 Thinking...
         `;
@@ -1087,7 +1087,7 @@ async function sendChatMessage() {
         if (!result) {
 
             throw new Error(
-                "Gemini returned an empty response."
+                "Groq returned an empty response."
             );
 
         }
