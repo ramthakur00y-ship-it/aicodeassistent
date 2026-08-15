@@ -26,7 +26,11 @@ app.use(express.json({
     limit: "2mb"
 }));
 
-// Serve frontend files from root folder
+// ==========================================
+// FRONTEND FILES
+// ==========================================
+
+// index.html, style.css and script.js are in root folder
 app.use(express.static(__dirname));
 
 // ==========================================
@@ -38,16 +42,14 @@ app.get("/", (req, res) => {
 });
 
 // ==========================================
-// HEALTH
+// HEALTH CHECK
 // ==========================================
 
 app.get("/api/health", (req, res) => {
-
     res.json({
         success: true,
         message: "AI Code Assistant backend is running"
     });
-
 });
 
 // ==========================================
@@ -55,13 +57,10 @@ app.get("/api/health", (req, res) => {
 // ==========================================
 
 app.get("/api/test-groq", async (req, res) => {
-
     try {
-
         console.log("Testing Groq...");
 
         const response = await groq.chat.completions.create({
-
             model: "llama-3.1-8b-instant",
 
             messages: [
@@ -72,41 +71,29 @@ app.get("/api/test-groq", async (req, res) => {
             ],
 
             temperature: 0.2
-
         });
 
         const result =
             response.choices?.[0]?.message?.content;
 
         res.json({
-
             success: true,
-
-            message:
-                result || "AI connection successful."
-
+            message: result || "AI connection successful."
         });
 
     } catch (error) {
-
-        console.error("Groq test error:", error);
+        console.error("❌ Groq test error:", error);
 
         res.status(500).json({
-
             success: false,
-
             error: "AI connection failed",
-
             details: error.message
-
         });
-
     }
-
 });
 
 // ==========================================
-// AI CODE
+// AI CODE API
 // ==========================================
 
 app.post("/api/code", async (req, res) => {
@@ -122,19 +109,21 @@ app.post("/api/code", async (req, res) => {
             message
         } = req.body;
 
-        console.log("AI REQUEST");
+        console.log("======================================");
+        console.log("🤖 AI REQUEST");
         console.log("Action:", action);
         console.log("Language:", language);
+        console.log("======================================");
+
+        // ==========================================
+        // ACTION CHECK
+        // ==========================================
 
         if (!action) {
-
             return res.status(400).json({
-
                 success: false,
                 error: "Action is required"
-
             });
-
         }
 
         let prompt = "";
@@ -155,6 +144,7 @@ User input:
 ${code}
 
 Provide:
+
 1. Complete code
 2. Explanation
 3. Best practices
@@ -272,7 +262,7 @@ Requirements:
         }
 
         // ==========================================
-        // TESTS
+        // TEST CASES
         // ==========================================
 
         else if (action === "tests") {
@@ -326,22 +316,24 @@ If code is required, provide complete code.
 
         }
 
+        // ==========================================
+        // INVALID ACTION
+        // ==========================================
+
         else {
 
             return res.status(400).json({
-
                 success: false,
                 error: "Invalid action"
-
             });
 
         }
 
         // ==========================================
-        // GROQ REQUEST
+        // SEND REQUEST TO GROQ
         // ==========================================
 
-        console.log("Sending request to Groq...");
+        console.log("⏳ Sending request to Groq...");
 
         const response =
             await groq.chat.completions.create({
@@ -370,43 +362,73 @@ If code is required, provide complete code.
             });
 
         // ==========================================
-        // RESPONSE
+        // GET AI RESPONSE
         // ==========================================
 
         const result =
             response.choices?.[0]?.message?.content;
 
+        console.log("✅ Groq request completed.");
+
+        // ==========================================
+        // EMPTY RESPONSE
+        // ==========================================
+
         if (!result || result.trim() === "") {
 
             return res.status(500).json({
-
                 success: false,
                 error: "AI returned an empty response."
-
             });
 
         }
 
-        res.status(200).json({
+        // ==========================================
+        // SEND AI RESPONSE
+        // ==========================================
+
+        return res.status(200).json({
 
             success: true,
+
             result: result
 
         });
 
     } catch (error) {
 
-        console.error("AI API ERROR:", error);
+        console.error("======================================");
+        console.error("❌ AI API ERROR");
+        console.error("======================================");
+        console.error(error);
+        console.error("======================================");
 
-        res.status(500).json({
+        return res.status(500).json({
 
             success: false,
+
             error: "AI request failed",
+
             details: error.message
 
         });
 
     }
+
+});
+
+// ==========================================
+// 404 HANDLER
+// ==========================================
+
+app.use((req, res) => {
+
+    res.status(404).json({
+
+        success: false,
+        error: "Route not found"
+
+    });
 
 });
 
@@ -417,9 +439,11 @@ If code is required, provide complete code.
 app.listen(PORT, () => {
 
     console.log("======================================");
-    console.log("AI Code Assistant Started");
+    console.log("🚀 AI Code Assistant Started");
     console.log("======================================");
-    console.log(`Server running on port ${PORT}`);
+    console.log(`🌐 Server running on port ${PORT}`);
+    console.log(`❤️ Health: /api/health`);
+    console.log(`🤖 AI Test: /api/test-groq`);
     console.log("======================================");
 
 });
