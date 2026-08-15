@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Code Assistant</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- ============================= -->
+        <!-- HEADER -->
+        <!-- ============================= -->
+
+        <header class="header">
+
+            <div class="brand">
+
+                <div class="logo">&lt;/&gt;</div>
+
+                <div>
+                    <h1>AI Code Assistant</h1>
+                    <!-- <p>Powered by Gemini AI</p> -->
+                     <p>Powered by Groq AI</p>
+                </div>
+
+            </div>
+
+            <div class="status">
+
+                <span class="status-dot"></span>
+
+                <span>Gemini Connected</span>
+
+            </div>
+
+        </header>
+
+
+        <!-- ============================= -->
+        <!-- MAIN -->
+        <!-- ============================= -->
+
+        <main class="main-container">
+
+
+            <!-- ============================= -->
+            <!-- CODE PANEL -->
+            <!-- ============================= -->
+
+            <section class="panel code-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <h2>Code Editor</h2>
+
+                        <p>
+                            Write or paste your code below
+                        </p>
+
+                    </div>
+
+
+                    <div class="language-controls">
+
+                        <select
+                            id="language"
+                            title="Source language"
+                        >
+
+                            <option value="javascript">
+                                JavaScript
+                            </option>
+
+                            <option value="python">
+                                Python
+                            </option>
+
+                            <option value="java">
+                                Java
+                            </option>
+
+                            <option value="cpp">
+                                C++
+                            </option>
+
+                            <option value="c">
+                                C
+                            </option>
+
+                            <option value="csharp">
+                                C#
+                            </option>
+
+                            <option value="php">
+                                PHP
+                            </option>
+
+                            <option value="html">
+                                HTML
+                            </option>
+
+                            <option value="css">
+                                CSS
+                            </option>
+
+                            <option value="sql">
+                                SQL
+                            </option>
+
+                            <option value="typescript">
+                                TypeScript
+                            </option>
+
+                        </select>
+
+
+                        <span class="arrow">
+                            →
+                        </span>
+
+
+                        <select
+                            id="targetLanguage"
+                            title="Target language"
+                        >
+
+                            <option value="python">
+                                Python
+                            </option>
+
+                            <option value="javascript">
+                                JavaScript
+                            </option>
+
+                            <option value="java">
+                                Java
+                            </option>
+
+                            <option value="cpp">
+                                C++
+                            </option>
+
+                            <option value="c">
+                                C
+                            </option>
+
+                            <option value="csharp">
+                                C#
+                            </option>
+
+                            <option value="php">
+                                PHP
+                            </option>
+
+                            <option value="typescript">
+                                TypeScript
+                            </option>
+
+                            <option value="go">
+                                Go
+                            </option>
+
+                            <option value="rust">
+                                Rust
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ============================= -->
+                <!-- EDITOR -->
+                <!-- ============================= -->
+
+                <div class="editor-wrapper">
+
+                    <div
+                        class="line-numbers"
+                        id="lineNumbers"
+                    >
+                        1
+                    </div>
+
+
+                    <textarea
+                        id="codeInput"
+                        spellcheck="false"
+                        placeholder="// Write or paste your code here...
+
+Example:
+
+function add(a, b) {
+    return a + b;
+}"
+                    ></textarea>
+
+                </div>
+
+
+                <!-- ============================= -->
+                <!-- ACTION BUTTONS -->
+                <!-- ============================= -->
+
+                <div class="actions">
+
+                    <button
+                        class="action-btn primary"
+                        data-action="generate"
+                    >
+
+                        <span>✨</span>
+
+                        Generate Code
+
+                    </button>
+
+
+                    <button
+                        class="action-btn"
+                        data-action="explain"
+                    >
+
+                        <span>📖</span>
+
+                        Explain
+
+                    </button>
+
+
+                    <button
+                        class="action-btn"
+                        data-action="fix"
+                    >
+
+                        <span>🐛</span>
+
+                        Fix Bugs
+
+                    </button>
+
+
+                    <button
+                        class="action-btn"
+                        data-action="optimize"
+                    >
+
+                        <span>⚡</span>
+
+                        Optimize
+
+                    </button>
+
+
+                    <button
+                        class="action-btn"
+                        data-action="convert"
+                    >
+
+                        <span>🔄</span>
+
+                        Convert
+
+                    </button>
+
+
+                    <button
+                        class="action-btn"
+                        data-action="tests"
+                    >
+
+                        <span>🧪</span>
+
+                        Test Cases
+
+                    </button>
+
+                </div>
+
+
+                <!-- ============================= -->
+                <!-- CLEAR -->
+                <!-- ============================= -->
+
+                <button
+                    id="clearBtn"
+                    class="clear-btn"
+                >
+
+                    🗑️ Clear
+
+                </button>
+
+            </section>
+
+
+
+            <!-- ============================= -->
+            <!-- RESPONSE PANEL -->
+            <!-- ============================= -->
+
+            <section class="panel response-panel">
+
+                <div class="panel-header response-header">
+
+                    <div>
+
+                        <h2>
+                            AI Response
+                        </h2>
+
+                        <!-- <p>
+                            Gemini's analysis will appear here
+                        </p> -->
+                        <p>AI analysis will appear here</p>
+
+                    </div>
+
+
+                    <div class="response-actions">
+
+                        <button
+                            id="copyBtn"
+                            class="copy-btn"
+                        >
+
+                            📋 Copy
+
+                        </button>
+
+
+                        <button
+                            id="downloadBtn"
+                            class="download-btn"
+                        >
+
+                            ⬇️ Download
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ============================= -->
+                <!-- LOADING -->
+                <!-- ============================= -->
+
+                <div
+                    id="loading"
+                    class="loading hidden"
+                >
+
+                    <div class="loader"></div>
+
+                    <div>
+
+                        <!-- <strong>
+                            Gemini is thinking...
+                        </strong> -->
+                        <strong>AI is thinking...</strong>
+
+                        <p>
+                            Analyzing your request
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ============================= -->
+                <!-- RESPONSE -->
+                <!-- ============================= -->
+
+                <div
+                    id="responseContainer"
+                    class="response-container"
+                >
+
+                    <div
+                        id="emptyState"
+                        class="empty-state"
+                    >
+
+                        <div class="empty-icon">
+                            🤖
+                        </div>
+
+
+                        <h3>
+                            Ready to help!
+                        </h3>
+
+
+                        <p>
+                            Enter your code and choose
+                            an action to get AI-powered
+                            assistance.
+                        </p>
+
+
+                        <div class="suggestions">
+
+
+                            <div class="suggestion">
+
+                                <span>🐛</span>
+
+                                <div>
+
+                                    <strong>
+                                        Fix Bugs
+                                    </strong>
+
+                                    <small>
+                                        Find and fix errors
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="suggestion">
+
+                                <span>📖</span>
+
+                                <div>
+
+                                    <strong>
+                                        Explain Code
+                                    </strong>
+
+                                    <small>
+                                        Understand your code
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="suggestion">
+
+                                <span>⚡</span>
+
+                                <div>
+
+                                    <strong>
+                                        Optimize
+                                    </strong>
+
+                                    <small>
+                                        Improve performance
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="responseText"
+                        class="response-text hidden"
+                    ></div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ================================= -->
+            <!-- AI CHAT ASSISTANT -->
+            <!-- ================================= -->
+
+            <section class="panel chat-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <h2>
+                            💬 AI Chat Assistant
+                        </h2>
+
+                        <p>
+                            Ask anything about programming
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ============================= -->
+                <!-- CHAT MESSAGES -->
+                <!-- ============================= -->
+
+                <div
+                    id="chatMessages"
+                    class="chat-messages"
+                >
+
+                    <div class="chat-welcome">
+
+                        <div class="chat-bot-icon">
+                            🤖
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Hello! I'm your AI coding assistant.
+                            </strong>
+
+                            <p>
+                                Ask me anything about programming,
+                                debugging, algorithms, or your code.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ============================= -->
+                <!-- CHAT INPUT -->
+                <!-- ============================= -->
+
+                <div class="chat-input-area">
+
+                    <textarea
+                        id="chatInput"
+                        placeholder="Ask your coding question..."
+                        rows="2"
+                    ></textarea>
+
+
+                    <button
+                        id="chatSendBtn"
+                        class="chat-send-btn"
+                    >
+
+                        🚀 Send
+
+                    </button>
+
+                </div>
+
+            </section>
+
+        </main>
+
+
+
+        <!-- ============================= -->
+        <!-- FOOTER -->
+        <!-- ============================= -->
+
+        <footer class="footer">
+
+            <span>
+                AI Code Assistant
+            </span>
+
+            <span>
+                •
+            </span>
+
+            <span>
+                Groq   LLM
+            </span>
+
+            <span>
+                •
+            </span>
+
+            <span>
+                Built with Node.js & Express
+            </span>
+
+        </footer>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
