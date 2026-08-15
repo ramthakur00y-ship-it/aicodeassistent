@@ -26,10 +26,10 @@ app.use(express.json({
     limit: "2mb"
 }));
 
-app.use(express.static(
-    path.join(__dirname, "public")
-));
-
+// app.use(express.static(
+//     path.join(__dirname, "public")
+// ));
+app.use(express.static(__dirname));
 // ==========================================
 // HEALTH
 // ==========================================
@@ -483,4 +483,7 @@ app.listen(PORT, () => {
     console.log("======================================");
     console.log("");
 
+});
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "index.html"));
 });
