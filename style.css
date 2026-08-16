@@ -1663,3 +1663,9 @@ body .app::before {
 
     letter-spacing: 1.5px;
 }
+
+.aiva {
+    background: linear-gradient(90deg, #00e5ff, #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
