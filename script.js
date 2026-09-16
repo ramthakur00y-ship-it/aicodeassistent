@@ -31,6 +31,14 @@ const chatSendBtn =
 
 
 // ==================================================
+// BACKEND URL
+// ==================================================
+
+const API_URL =
+    "https://aicodeassistent-1.onrender.com/api/code";
+
+
+// ==================================================
 // LANGUAGE NAMES
 // ==================================================
 
@@ -313,6 +321,7 @@ function showResponse(text) {
 
     responseText.classList.remove("hidden");
 
+
     // ==================================================
     // MARKDOWN FORMATTED AI RESPONSE
     // ==================================================
@@ -442,12 +451,16 @@ async function runAssistant(action) {
     try {
 
         console.log(
-            "🤖 Sending request to backend..."
+            "🤖 Sending request to Spring Boot backend..."
         );
 
 
+        // ------------------------------------------
+        // SEND REQUEST TO JAVA SPRING BOOT
+        // ------------------------------------------
+
         const response =
-            await fetch("https://aicodeassistent.onrender.com/api/code", {
+            await fetch(API_URL, {
 
                 method: "POST",
 
@@ -480,8 +493,12 @@ async function runAssistant(action) {
             });
 
 
+        // ------------------------------------------
+        // SPRING BOOT RETURNS PLAIN TEXT
+        // ------------------------------------------
+
         const data =
-            await response.json();
+            await response.text();
 
 
         console.log(
@@ -490,13 +507,15 @@ async function runAssistant(action) {
         );
 
 
-        if (!response.ok ||
-            !data.success) {
+        // ------------------------------------------
+        // ERROR CHECK
+        // ------------------------------------------
+
+        if (!response.ok) {
 
             throw new Error(
 
-                data.error ||
-                data.details ||
+                data ||
                 "AI request failed."
 
             );
@@ -504,16 +523,11 @@ async function runAssistant(action) {
         }
 
 
-        // Backend sends result
+        // ------------------------------------------
+        // EMPTY RESPONSE CHECK
+        // ------------------------------------------
 
-        const result =
-
-            data.result ||
-            data.response ||
-            data.message;
-
-
-        if (!result) {
+        if (!data.trim()) {
 
             throw new Error(
                 "Groq returned an empty response."
@@ -522,7 +536,11 @@ async function runAssistant(action) {
         }
 
 
-        showResponse(result);
+        // ------------------------------------------
+        // SHOW AI RESPONSE
+        // ------------------------------------------
+
+        showResponse(data);
 
 
         copyBtn.disabled = false;
@@ -888,14 +906,11 @@ function addChatMessage(
     );
 
 
-    // label.textContent =
-    //     sender === "user"
-    //         ? "You"
-    //         : "Gemini";
-label.textContent =
-    sender === "user"
-        ? "You"
-        : "AI Assistant";
+    label.textContent =
+        sender === "user"
+            ? "You"
+            : "AI Assistant";
+
 
     const content =
         document.createElement("div");
@@ -958,7 +973,7 @@ function addChatLoading() {
     loadingMessage.innerHTML =
         `
         <span class="chat-message-label">
-            Groq
+            AI Assistant
         </span>
         🤔 Thinking...
         `;
@@ -1047,7 +1062,7 @@ async function sendChatMessage() {
 
 
         console.log(
-            "💬 Sending chat request..."
+            "💬 Sending chat request to Spring Boot backend..."
         );
 
 
@@ -1056,7 +1071,7 @@ async function sendChatMessage() {
         // ------------------------------------------
 
         const response =
-            await fetch("https://aicodeassistent.onrender.com/api/code", {
+            await fetch(API_URL, {
 
                 method: "POST",
 
@@ -1078,15 +1093,36 @@ async function sendChatMessage() {
                         currentCode,
 
                     message:
-                        message
+                        message,
+
+                    prompt: `
+
+You are an AI programming assistant.
+
+Current programming language:
+${currentLanguage}
+
+Current code:
+${currentCode}
+
+User question:
+${message}
+
+Answer the user clearly and helpfully.
+
+`
 
                 })
 
             });
 
 
+        // ------------------------------------------
+        // SPRING BOOT RETURNS PLAIN TEXT
+        // ------------------------------------------
+
         const data =
-            await response.json();
+            await response.text();
 
 
         console.log(
@@ -1095,13 +1131,15 @@ async function sendChatMessage() {
         );
 
 
-        if (!response.ok ||
-            !data.success) {
+        // ------------------------------------------
+        // ERROR CHECK
+        // ------------------------------------------
+
+        if (!response.ok) {
 
             throw new Error(
 
-                data.error ||
-                data.details ||
+                data ||
                 "Chat request failed."
 
             );
@@ -1109,14 +1147,11 @@ async function sendChatMessage() {
         }
 
 
-        const result =
+        // ------------------------------------------
+        // EMPTY RESPONSE CHECK
+        // ------------------------------------------
 
-            data.result ||
-            data.response ||
-            data.message;
-
-
-        if (!result) {
+        if (!data.trim()) {
 
             throw new Error(
                 "Groq returned an empty response."
@@ -1130,7 +1165,7 @@ async function sendChatMessage() {
 
         addChatMessage(
             "ai",
-            result
+            data
         );
 
 
@@ -1291,6 +1326,7 @@ copyBtn.disabled = true;
 downloadBtn.disabled = true;
 
 updateLineNumbers();
+
 
 console.log(
     "✅ AI Code Assistant loaded."
